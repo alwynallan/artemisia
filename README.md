@@ -10,7 +10,6 @@ Many of the nodes have no incloming arcs (leaves), or indegree=0. Many more have
 With that motivation, here is the help for utility **`artemisia`**
 
 ```
-
 Usage: artemisia8, artemisia16, artemisia24, artemisia32, artemisia <n>
 
 Tests random data on stdin by constructing a directed graph with 2^n nodes
@@ -35,6 +34,4 @@ allowing the 32-bit case to use just 1GB of memory. Once the required data is
 read, the count for each expected value is totalled, and the totals compared
 with the expected values using Pearsons's Chi Squared test. The p-value is
 reported, and a test pass or fail is indicated at the 1% confidence level.
-
-
 ```
