@@ -1,11 +1,11 @@
 # artemisia
 Novel test for randomness based on digraphs.
 
-Imagine a directed graph with 256 nodes and 256 edges, where a single arc points from each node to another node based on the value of a byte. If the graph is determined by 256 random bytes it might looks like this, like plants from the genus artemisia.
+Imagine a directed graph with 256 nodes and 256 edges, where a single arc points from each node to another node based on the value of a byte. If the graph is determined by 256 random bytes it might looks like this, like plants from the artemisia family.
 
 <img src="exp_n_8.png" alt="2^8 node digraph" width="640"/>
 
-Many of the nodes have no incloming arcs (leaves), or indegree=0. Many more have indegree=1, and there are three examples with indegree=4. Unlike plants, the digraph has cycles, including one with length=1. We can characterize the graph by the distribution of indegree values for all its nodes, and posit that graphs determined by randomness will have similar distributions. The principle extends well for graphs with billions of nodes, and serves to test large quantities of data.
+Many of the nodes have no incloming arcs (leaves), we say indegree=0. Many more have indegree=1, fewer with indegree=2 & 3, and there are three examples with indegree=4. Unlike plants, the digraph has cycles, including one with length=1. We can characterize the graph by the distribution of indegree values for all its nodes, and posit that graphs determined by randomness will have similar distributions. The principle extends well for graphs with billions of nodes, and serves to test large quantities of data.
 
 With that motivation, here is the help for utility **`artemisia`**
 
