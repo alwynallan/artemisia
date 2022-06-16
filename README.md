@@ -13,7 +13,7 @@ With that motivation, here is the help for utility **`artemisia`**
 Usage: artemisia8, artemisia16, artemisia24, artemisia32, artemisia <n>
 
 Tests random data on stdin by constructing a directed graph with 2^n nodes
-and 2^n edges. Each node as outdegree=1 and its target is determined by the
+and 2^n edges. Each node has outdegree=1 and its target is determined by the
 data. For random data, the nodes are observed to have indegree following a
 distribution with
     P(indegree = d) = 1 / (e d!)
