@@ -8,8 +8,8 @@
 
 // detects defects in f_cker, old_rand, most compressed files
 
-// $ sudo apt install libgsl-dev
-// $ gcc -Wall -O3 -o artemisia artemisia.c -l gsl
+// $ sudo apt install libgsl-dev                   (or equivalent on your *nix)
+// $ gcc -Wall -O3 -o artemisia artemisia.c -l gsl (add '-l gslcblas' if it fails)
 // $ ln -s artemisia artemisia8
 // $ ln -s artemisia artemisia16
 // $ ln -s artemisia artemisia24
@@ -17,6 +17,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <inttypes.h>
 #include <string.h>
 #include <libgen.h> // basename()
 #include <math.h> // M_E
@@ -55,7 +56,6 @@ void usage() {
 }
 
 int main(int argc, char *argv[]) {
-  assert(4 == sizeof(unsigned));
   assert(*(char *)(int[]){1}); // little-endian https://stackoverflow.com/a/8981006/5660198
   int bits=0;
   switch(argc) {
@@ -76,10 +76,10 @@ int main(int argc, char *argv[]) {
   }
   if(!bits) {usage(); return 0;}
   
-  unsigned char *indegree = calloc(1U<<(bits-2), 1);
+  uint8_t *indegree = calloc(1U<<(bits-2), 1);
   assert(NULL != indegree);
   
-  unsigned char LUT[4][256], i=0U;
+  uint8_t LUT[4][256], i=0U;
   do {
     LUT[0][i] = ((i&3U) < 3U) ? i+1 : i;
     LUT[1][i] = (LUT[0][i] << 2) | (LUT[0][i] >> 6);
@@ -87,7 +87,7 @@ int main(int argc, char *argv[]) {
     LUT[3][i] = (LUT[0][i] << 6) | (LUT[0][i] >> 2);
   } while(++i);
   
-  unsigned state=0U, stream;
+  uint32_t state=0U, stream;
   switch(bits) {
     case 8:
       do {
@@ -115,7 +115,7 @@ int main(int argc, char *argv[]) {
       break;
   }
   
-  unsigned long long counts[4] = {0U, 0U, 0U, 0U};
+  uint64_t counts[4] = {0U, 0U, 0U, 0U};
   state = 0U;
   switch(bits) {
     case 8:
@@ -140,18 +140,18 @@ int main(int argc, char *argv[]) {
       break;
   }
   
-  assert(counts[0] + counts[1] + counts[2] + counts[3] == (unsigned long long)1U<<bits);
+  assert(counts[0] + counts[1] + counts[2] + counts[3] == (uint64_t)1U<<bits);
   double expecteds[4];
-  expecteds[0] = (float)((unsigned long long)1U<<bits) / M_E;
+  expecteds[0] = (float)((uint64_t)1U<<bits) / M_E;
   expecteds[1] = expecteds[0];
   expecteds[2] = expecteds[1] / 2.;
-  expecteds[3] = (float)((unsigned long long)1U<<bits) - expecteds[0] - expecteds[1] - expecteds[2];
+  expecteds[3] = (float)((uint64_t)1U<<bits) - expecteds[0] - expecteds[1] - expecteds[2];
   double chi2 = 0.;
   printf("indegree, count, expected\n");
   for(i=0; i<4; i++) {
     double a = counts[i] - expecteds[i];
     chi2 += a * a / expecteds[i];
-    printf("%d%s, %llu, %.1lf\n", i, i<3?" ":"+", counts[i], expecteds[i]);
+    printf("%d%s, %"PRIu64", %.1lf\n", i, i<3?" ":"+", counts[i], expecteds[i]);
   }
   double pval = gsl_cdf_chisq_P(chi2, 2.0);
   printf("p-value: %lf\n", pval);
