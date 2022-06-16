@@ -29,7 +29,7 @@ void usage() {
 "Usage: artemisia8, artemisia16, artemisia24, artemisia32, artemisia <n>\n"
 "\n"
 "Tests random data on stdin by constructing a directed graph with 2^n nodes\n"
-"and 2^n edges. Each node as outdegree=1 and its target is determined by the\n"
+"and 2^n edges. Each node has outdegree=1 and its target is determined by the\n"
 "data. For random data, the nodes are observed to have indegree following a\n"
 "distribution with\n"
 "    P(indegree = d) = 1 / (e d!)\n"
